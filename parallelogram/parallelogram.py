@@ -125,7 +125,7 @@ def make_production_dataset( n ):
 
 def make_one_experiment( n ):
     if n <20: raise ValueError
-    df = make_production_dataset( 1000 )
+    df = make_training_dataset( n )
     X = df[features].values
     y = df.label.values
 
