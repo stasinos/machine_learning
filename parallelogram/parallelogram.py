@@ -150,7 +150,7 @@ def make_one_experiment( n ):
         acc_test = metrics.accuracy_score(y_test, y_pred)
         avg_acc_train += acc_train / 20
         avg_acc += acc_test / 20
-        if acc_test > best_acc: best_clf = clf
+        if acc_test > best_acc: best_clf, acc_test = clf, best_acc
 
     df = make_production_dataset( 1000 )
     X = df[features].values
