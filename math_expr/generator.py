@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+from PIL import Image
 
 
 def write_figure( title, x, y, xlim, ylim, pure=False ):
@@ -22,10 +23,11 @@ def write_figure( title, x, y, xlim, ylim, pure=False ):
         ax.yaxis.set_ticks_position('left')
 
     plt.plot( x, y )
-
     plt.savefig( "{}.png".format(title) )
     plt.clf()
-
+    # Make a binary BW image
+    pic = Image.open("{}.png".format(title)).convert('1')
+    pic.save( "{}-bw.png".format(title) )
 
 
 xlim = [-10,10]
