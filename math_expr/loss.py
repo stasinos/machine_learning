@@ -11,6 +11,7 @@ def measure( array1, array2 ):
     points_in_both = np.logical_and( array1, array2 )
     a = np.count_nonzero( np.logical_and(array1,points_in_both) )
     q1 = float(a) / float( np.count_nonzero(array1) )
+    a = np.count_nonzero( np.logical_and(array2,points_in_both) )
     q2 = float(a) / float( np.count_nonzero(array2) )
     return 2*q1*q2/(q1+q2)
 
@@ -22,10 +23,10 @@ def evaluate( pic1, pic2 ):
     array2 = np.logical_not( np.array(pic2) )
     return measure( array1, array2 )
 
-images = ["poly","natlog","exp","sine","sinc","cosh","sinconlinear","sineonln"]
+images = ["poly","exp","sine","sinc","sin_poly","sinc_linear"]
 bwimages = []
 
-test_images = ["natlog","sineonln"]
+test_images = ["sin_poly","sinc_linear"]
 
 for filename in images:
     pic = Image.open( "{}-bw.png".format(filename) )

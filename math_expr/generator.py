@@ -91,5 +91,5 @@ write_figure( "sinc_linear", x, y1+y2, xlim, ylim, pure )
 
 x,y1 = fn_poly([0,0.1,0.3,0.2])
 x,y2 = fn_sin(5,10)
-write_figure( "sin_npoly", x, y1+y2, xlim, ylim, pure )
+write_figure( "sin_poly", x, y1+y2, xlim, ylim, pure )
 
