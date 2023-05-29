@@ -10,13 +10,13 @@ For the sake of simplicity, we shall restrict the scope of the
 exercise to learning a "program" in a "programming language" that has
 the following functions:
 
- - `exp(a)`: f(x) = a*exp(x), with real argument a
+ - `exp(a)`: f(x) = a exp(x), with real argument a
 
- - `sin(a,b)`: f(x) = a*sin(b*x), with real arguments a,b
+ - `sin(a,b)`: f(x) = a sin(bx), with real arguments a,b
 
  - `sinc(x0)`: f(x) = sinc(x-x0), with real argument x0
 
- - `poly(A)`: f(x) = the polynomial Sum[i in 0..len(A)-1]( A[i]*x^i ),
+ - `poly(A)`: f(x) = sum(for i in 0..len(A)-1)( A[i]*x^i ),
    with an array of integers as argument.
  
 A "program" consists of multiple lines, where each line is exactly one
