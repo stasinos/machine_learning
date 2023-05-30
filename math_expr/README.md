@@ -119,7 +119,7 @@ on a specific domain, thre will be semantically different functions
 that are indistiguishable within this domain.
 
 
-## Hypothesis Formation and Evaluation
+## Training a Graph Recognizner
 
 The task of the exercise is to create a program synthesiser that is
 trained on examples of programs and target bitmaps, _without being
