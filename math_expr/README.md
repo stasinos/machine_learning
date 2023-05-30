@@ -15,7 +15,7 @@ has the following functions:
  - `ln()`: returns $\ln(x)$ for $x \in (0,10]$ and `NaN` for
    $x \in [-10,0]$
 
- - `sin()`: returns $\sin(x), for $x \in [-10,10]$
+ - `sin()`: returns $\sin(x)$, for $x \in [-10,10]$
 
  - `sinc()`: returns $\mathrm{sinc}(x)$, for $x \in [-10,10]$
 
