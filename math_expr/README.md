@@ -129,7 +129,7 @@ how they are used to combine the outputs of the different functions,
 but not of the functions themselves.
 
 Think of this as a computer vision exercise, where the machine
-learning will learn how to recognize the elemntary functions
+learning will learn how to recognize graphs of the elementary functions
 (sine, sinc, exponential, logarithmic) although it is only given
 as supervision descriptions of complex bitmaps (e.g., this is a
 composition of exp and sine) without ever observing the elementary
