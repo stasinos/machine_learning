@@ -39,9 +39,9 @@ function which also returns a `(x,y)` pair of numpy arrays:
 
 A "program" consists of multiple lines, where each line is exactly one
 function call (or expression using the operators above). The semantics
-of the whole program is the graph of y=f(x), for x in [-10,10], where
-f(x) is the item-wise summation of the arrays returned by all program
-lines.
+of the whole program is the plot of all (x,y) pairs where
+`x` is [-10,10] and `y` is the item-wise summation of the `y` arrays
+returned by all program lines.
 
 For example, the following program:
 
