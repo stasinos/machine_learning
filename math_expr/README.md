@@ -17,7 +17,7 @@ has the following functions:
 
  - `sin()`: returns $\sin(x), for $x \in [-10,10]$
 
- - `sinc()`: returns $\sinc(x)$, for $x \in [-10,10]$
+ - `sinc()`: returns $\mathrm{sinc}(x)$, for $x \in [-10,10]$
 
  - `poly(A)`: returns $\sum_{i} A_i \cdot x^i$,
     where argument $A$ is an array of floats and $x \in [-10,10]$
@@ -32,7 +32,7 @@ functions into a function which also returns a `(x,y)` pair of numpy
 arrays:
 
  - `f,g,..,h`: returns the results of the composition
-   $f \circ g \cinc ... \circ h$
+   $f \circ g \circ ... \circ h$
 
 A "program" consists of multiple lines, where each line is exactly one
 function call (or expression using the operators above). The semantics
@@ -48,7 +48,7 @@ poly( [0,0.2] )
 ```
 
 means the graph plotted by the equation
-$y = \sinc(x) + 0.2 \cdot x$ for $x \in [-10,10]$
+$y = \mathrm{sinc}(x) + 0.2 \cdot x$ for $x \in [-10,10]$
 whereas the program:
 
 ```
