@@ -10,32 +10,29 @@ For the sake of simplicity, we shall restrict the scope of the
 exercise to learning a "program" in a "programming language" that
 has the following functions:
 
- - `exp(a)`: returns $a \cdot e^x$, where $a$ is float argument
-   and $x \in [-10,10]$
+ - `exp()`: returns $e^x$, for $x \in [-10,10]$
 
- - `ln()`: returns $ln(x)$ for $x \in (0,10]$ and `NaN` for
+ - `ln()`: returns $\ln(x)$ for $x \in (0,10]$ and `NaN` for
    $x \in [-10,0]$
 
- - `sin(a,b)`: returns $a \cdot \sin(b\cdot x), where $a,b$ are
-    float arguments and $x \in [-10,10]$
+ - `sin()`: returns $\sin(x), for $x \in [-10,10]$
 
- - `sinc()`: returns $sinc(x)$, for $x \in [-10,10]$
+ - `sinc()`: returns $\sinc(x)$, for $x \in [-10,10]$
 
- - `poly(A)`: returns $\sum_{i=0..len(A)-1} A_i \cdot x^i$,
-    where argument $A$ is an array of floats and  $x \in [-10,10]$
+ - `poly(A)`: returns $\sum_{i} A_i \cdot x^i$,
+    where argument $A$ is an array of floats and $x \in [-10,10]$
 
 The functions return a `(x,y)` pair of numpy arrays that can be
 directly used as inputs for `matplotlib`. All functions may also
-be called with one of the the following optional keyword arguments:
+be called with the optional keyword argument `x` which is an array
+of floats to be used as domain instead of [-10,10].
 
- - `x0`: Translate on the x axis by `x0`
- - `x`: Use `x` instead of `[-10,10]` as domain
+The language also has the following operators that combine two or more
+functions into a function which also returns a `(x,y)` pair of numpy
+arrays:
 
-It is an error to provide both keyword arguments. The language also
-has the following operators that combine two or more functions into a
-function which also returns a `(x,y)` pair of numpy arrays:
-
- - `f(a),g(b)`: returns the results of the composition $f \circ g$
+ - `f,g,..,h`: returns the results of the composition
+   $f \circ g \cinc ... \circ h$
 
 A "program" consists of multiple lines, where each line is exactly one
 function call (or expression using the operators above). The semantics
@@ -46,26 +43,26 @@ returned by all program lines.
 For example, the following program:
 
 ```
-sinc( -2 )
+sinc()
 poly( [0,0.2] )
 ```
 
 means the graph plotted by the equation
-$y = sinc(x) + 0.2 \cdot x$ for $x \in [-10,10]$
+$y = \sinc(x) + 0.2 \cdot x$ for $x \in [-10,10]$
 whereas the program:
 
 ```
-sin( 1, 20 ), exp( 1 )
+sin(), poly( [0,20] ), exp()
 poly( [0,0.1,0.3,0.5] )
 ```
 
 means the graph plotted by the equation
-$y = sin(20 \cdot e^x) + 0.5 \cdot x^{3} + 0.3 \cdot x^{2} + 0.1 \cdot x $
+$y = \sin(20 \cdot e^x) + 0.5 \cdot x^{3} + 0.3 \cdot x^{2} + 0.1 \cdot x $
 and the program:
 
 ```
 poly( [0,1] )
-poly( [0,0.1,0.3,0.5] ), exp( 1 ), sin( 1, 20 )
+poly( [0,0.1,0.3,0.5] ), exp(), sin(), poly( [0,20] )
 ```
 
 means the graph plotted by the equation
