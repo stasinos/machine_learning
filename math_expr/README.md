@@ -47,8 +47,7 @@ poly( [0,0.1,0.3,0.5] )
 ```
 
 means the graph plotted by the equation
-$y = 0.5 \cdot x^{3} + 0.3 \cdot x^{2} + 0.1 \cdot x + sin(20 \cdot e^x)) $
-
+$y = sin(20 \cdot e^x) + 0.5 \cdot x^{3} + 0.3 \cdot x^{2} + 0.1 \cdot x $
 and the program:
 
 ```
