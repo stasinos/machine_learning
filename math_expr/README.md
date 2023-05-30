@@ -13,22 +13,35 @@ has the following functions:
  - `exp(a)`: returns $a \cdot e^x$, where $a$ is float argument
    and $x \in [-10,10]$
 
+ - `ln()`: returns $ln(x)$ for $x \in (0,10]$ and `NaN` for
+   $x \in [-10,0]$
+
  - `sin(a,b)`: returns $a \cdot \sin(b\cdot x), where $a,b$ are
     float arguments and $x \in [-10,10]$
 
- - `sinc(x0)`: returns $sinc(x-x_0)$, where $x_0$ is float argument
-    and $x \in [-10,10]$
+ - `sinc()`: returns $sinc(x)$, for $x \in [-10,10]$
 
  - `poly(A)`: returns $\sum_{i=0..len(A)-1} A_i \cdot x^i$,
     where argument $A$ is an array of floats and  $x \in [-10,10]$
 
- - `f(a),g(b)`: returns the results of the composition of f and g.
+The functions return a `(x,y)` pair of numpy arrays that can be
+directly used as inputs for `matplotlib`. All functions may also
+be called with one of the the following optional keyword arguments:
+
+ - `x0`: Translate on the x axis by `x0`
+ - `x`: Use `x` instead of `[-10,10]` as domain
+
+It is an error to provide both keyword arguments. The language also
+has the following operators that combine two or more functions into a
+function which also returns a `(x,y)` pair of numpy arrays:
+
+ - `f(a),g(b)`: returns the results of the composition $f \circ g$
 
 A "program" consists of multiple lines, where each line is exactly one
-function call or a composition. The semantics of each line is the
-expression given above. The semantics of the whole program is the
-graph for y=f(x), for x in [-10,10], where f(x) is the item-wise
-summation of the arrays returned by all program lines.
+function call (or expression using the operators above). The semantics
+of the whole program is the graph of y=f(x), for x in [-10,10], where
+f(x) is the item-wise summation of the arrays returned by all program
+lines.
 
 For example, the following program:
 
@@ -83,4 +96,5 @@ We evaluate a program on a test graph _t_ as follows:
    combine these two recall-like metrics into an f-score-like
    evaluation in order to penalize extreme solutions like painting
    nothing or painting everything black.
+
 
