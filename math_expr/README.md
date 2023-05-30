@@ -42,12 +42,22 @@ $y = sinc(x) + 0.2 \cdot x$ for $x \in [-10,10]$
 whereas the program:
 
 ```
-exp( 1 ), sin( 1, 20 )
+sin( 1, 20 ), exp( 1 )
 poly( [0,0.1,0.3,0.5] )
 ```
 
 means the graph plotted by the equation
-$y = 0.5 \cdot e^{3 \cdot sin(20x)} + 0.3 \cdot e^{2 \cdot sin(20x)} + 0.1 \cdot e^{sin(20x)}$
+$y = 0.5 \cdot x^{3} + 0.3 \cdot x^{2} + 0.1 \cdot x + sin(20 \cdot e^x)) $
+
+and the program:
+
+```
+poly( [0,1] )
+poly( [0,0.1,0.3,0.5] ), exp( 1 ), sin( 1, 20 )
+```
+
+means the graph plotted by the equation
+$y = x + 0.1 \cdot e^{sin(20x)} + 0.3 \cdot e^{2 \cdot sin(20x)} + 0.5 \cdot e^{3 \cdot sin(20x)}$
 
 
 ## Evaluation Function
