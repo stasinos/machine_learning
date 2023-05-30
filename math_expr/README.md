@@ -7,8 +7,8 @@ most "elegant" solution must be found, so simply approximating with a
 polyonym is not considered a good solution.
 
 For the sake of simplicity, we shall restrict the scope of the
-exercise to learning a "program" in a "programming language" that has
-the following functions:
+exercise to learning a "program" in a "programming language" that
+has the following functions:
 
  - `exp(a)`: returns $a \cdot e^x$, where $a$ is float argument
    and $x \in [-10,10]$
@@ -21,12 +21,14 @@ the following functions:
 
  - `poly(A)`: returns $\sum_{i=0..len(A)-1} A_i \cdot x^i$,
     where argument $A$ is an array of floats and  $x \in [-10,10]$
- 
+
+ - `f(a),g(b)`: returns the results of the composition of f and g.
+
 A "program" consists of multiple lines, where each line is exactly one
-function call. The semantics of each line is the expression given
-above. The semantics of the whole program is the graph for y=f(x),
-for x in [-10,10], where f(x) is the item-wise summation of the
-arrays returned by all program lines.
+function call or a composition. The semantics of each line is the
+expression given above. The semantics of the whole program is the
+graph for y=f(x), for x in [-10,10], where f(x) is the item-wise
+summation of the arrays returned by all program lines.
 
 For example, the following program:
 
@@ -36,7 +38,16 @@ poly( [0,0.2] )
 ```
 
 means the graph plotted by the equation
-$y = sinc(x) + 0.2 \cdot x$ for $x \in [-10,10]$.
+$y = sinc(x) + 0.2 \cdot x$ for $x \in [-10,10]$
+whereas the program:
+
+```
+exp( 1 ), sin( 1, 20 )
+poly( [0,0.1,0.3,0.5] )
+```
+
+means the graph plotted by the equation
+$y = 0.5 \cdot e^{3 \cdot sin(20x)} + 0.3 \cdot e^{2 \cdot sin(20x)} + 0.1 \cdot e^{sin(20x)}$
 
 
 ## Evaluation Function
