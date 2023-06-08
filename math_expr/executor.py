@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from PIL import Image
 import json
+import os
 
 def fn_exp( x=None ):
     if x is None:
@@ -118,19 +119,26 @@ def write_figure( title, x, y, xlim, ylim, pure=False ):
         plt.yticks([])
         plt.axis('off')
     else:
-        plt.title( title )
+        plt.title(title)
         ax.xaxis.set_ticks_position('bottom')
         ax.yaxis.set_ticks_position('left')
 
-    plt.plot( x, y )
+    # Store plots in a different directory
+    directory = "plots"
+    # Check if the directory exists
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
+    plt.plot(x, y)
     y_max = np.abs(ax.get_ylim()).max()
     ax.set_ylim(ymin=-y_max, ymax=y_max)
-    plt.savefig( "{}.png".format(title) )
+    plt.savefig(f'./plots/{title}.png')  # changed to this format so that it can handle different types of titles
     plt.clf()
     # Make a binary BW image
-    pic = Image.open("{}.png".format(title)).convert('1')
-    pic.save( "{}-bw.png".format(title) )
+    pic = Image.open(f'./plots/{title}.png').convert('1')
+    pic.save(f'./plots/{title}-bw.png')
     plt.close(fig)
+
 
 def execute( program, x=None ):
     xlim = [-10,10]
