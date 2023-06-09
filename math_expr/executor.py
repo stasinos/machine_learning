@@ -130,7 +130,6 @@ def write_figure( title, x, y, xlim, ylim, pure=False ):
     # Make a binary BW image
     pic = Image.open("{}.png".format(title)).convert('1')
     pic.save( "{}-bw.png".format(title) )
-    plt.close(fig)
 
 def execute( program, x=None ):
     xlim = [-10,10]
