@@ -1,10 +1,9 @@
 import torch
-from torch import nn
-
 import math
 import matplotlib.pyplot as plt
+from networks import FunctionApproximator
 
-torch.manual_seed(42)
+torch.manual_seed( 42 )
 
 # It is good to keep all numbers in 0..1,
 # even mandatory for some loss functions.
@@ -16,28 +15,6 @@ RANGE = [0.0, 1.0]
 lr = 1e-3
 num_epochs = 10
 batch_size = 64
-
-# Model structure
-# Also tried ReLU, tanh seems to work better
-# Note: For ReLU, add a Sigmoid at the very end
-# to keep outputs in 0..1
-class FunctionApproximator(nn.Module):
-
-    def __init__(self):
-        super().__init__()
-        self.model = nn.Sequential(
-            nn.Linear(1, 64),
-            nn.Tanh(),
-            nn.Linear(64, 64),
-            nn.Tanh(),
-            nn.Linear(64, 64),
-            nn.Tanh(),
-            nn.Linear(64, 1),
-        )
-
-    def forward(self, x):
-        output = self.model(x)
-        return output
 
 
 # Data for each Class function
@@ -152,7 +129,7 @@ for i in range(len(data)):
     )
 
     model = FunctionApproximator()
-    loss_fn = nn.MSELoss()
+    loss_fn = torch.nn.MSELoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
 
     for epoch in range(num_epochs):
