@@ -5,7 +5,7 @@ import math
 import matplotlib.pyplot as plt
 
 
-RANGE = [-math.pi, math.pi]
+RANGE = [-10, 10]
 
 torch.manual_seed(42)
 
@@ -28,7 +28,7 @@ batch_size = 64
 
 # Dataset
 
-train_data_length = 64*1024
+train_data_length = 64*1024*2
 # Inputs and outputs are single values in 0..1,
 # but must be in a 2D array anyway, to satisfy torch.
 # So just fix the second dim to [,0]
@@ -91,8 +91,7 @@ for epoch in range(num_epochs):
 
             y_plots = nnrange_to_realrange( y_samples[:,0].detach() )
             print(min(y_plots), max(y_plots))
-            # x_plots = 2 * math.pi * x_samples[:,0]
-            x_plots = x_samples[:, 0]
+            x_plots = 2 * math.pi * x_samples[:,0]
             plt.plot( x_plots, y_plots, "." )
             plt.savefig( "sine_{}.png".format(epoch) )
             plt.close()
