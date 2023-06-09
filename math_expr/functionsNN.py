@@ -21,7 +21,7 @@ batch_size = 64
 # Also tried ReLU, tanh seems to work better
 # Note: For ReLU, add a Sigmoid at the very end
 # to keep outputs in 0..1
-class Distinguisher(nn.Module):
+class FunctionApproximator(nn.Module):
 
     def __init__(self):
         super().__init__()
@@ -151,7 +151,7 @@ for i in range(len(data)):
         batch_size=batch_size, shuffle=True
     )
 
-    model = Distinguisher()
+    model = FunctionApproximator()
     loss_fn = nn.MSELoss()
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
 
