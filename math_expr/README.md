@@ -121,13 +121,12 @@ that are indistiguishable within this domain.
 
 ## Training a Graph Recognizner
 
-The task of the exercise is to create a synthesiser of one-line
-expressions of this langauge. The synthesiser is trained
-on examples of expressions and target bitmaps, _without being
-given access to the basic mathematical functions_. The
-synthesiser will have access to the implementations of the poly
-function and the compose operator, but not of any of remaining
-four functions.
+The task of the exercise is to create a program synthesiser that is
+trained on examples of programs and target bitmaps, _without being
+given access to the basic mathematical functions_. The program
+synthesiser will be made aware of the operators of the language and
+how they are used to combine the outputs of the different functions,
+but not of the functions themselves.
 
 Think of this as a computer vision exercise, where the machine
 learning will learn how to recognize graphs of the elementary functions
