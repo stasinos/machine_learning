@@ -37,3 +37,15 @@ class DoubleSin( nn.Module ):
     def forward(self, x):
         output = self.model1(x) + self.model2(2*x)
         return output
+    def get_internal(self):
+        return [self.model1,self.model2]
+
+class SingleSinTwice( nn.Module ):
+    def __init__(self):
+        super().__init__()
+        self.model = FunctionApproximator()
+    def forward(self, x):
+        output = self.model(x) + self.model(2*x)
+        return output
+    def get_internal(self):
+        return [self.model]

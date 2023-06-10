@@ -15,6 +15,7 @@ num_epochs = 15
 batch_size = 64
 
 
+
 ##
 ## Train the network on data generated
 ## from sin(x) + sin(2x)
@@ -37,7 +38,7 @@ def sine_in_01(x):
 def nnrange_to_realrange(x):
     return 2*x-1
 
-train_data_length = 128*1024
+train_data_length = 512*1024
 train_data = torch.zeros( (train_data_length,1) )
 train_data[:, 0] = (RANGE[0] - RANGE[1]) * torch.rand(train_data_length) + RANGE[1]
 train_labels = sine_in_01( train_data )
@@ -51,8 +52,8 @@ train_loader = torch.utils.data.DataLoader(
 
 # Training loop
 
-myNN = DoubleSin()
-exp_name = "exp01"
+myNN = SingleSinTwice()
+exp_name = "exp01b"
 loss_fn = torch.nn.MSELoss()
 optimizer = torch.optim.Adam(myNN.parameters(), lr=lr)
 
