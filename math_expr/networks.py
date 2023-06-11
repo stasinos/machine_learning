@@ -20,8 +20,24 @@ class FunctionApproximator( nn.Module ):
             Snake(64),
             nn.Linear(64, 64),
             Snake(64),
-            nn.Linear(64, 1),
-            nn.Sigmoid()
+            nn.Linear(64, 1)
+        )
+
+    def forward(self, x):
+        output = self.model(x)
+        return output
+
+
+class SmallFunctionApproximator( nn.Module ):
+
+    def __init__(self):
+        super().__init__()
+        self.model = nn.Sequential(
+            nn.Linear(1, 32),
+            Snake(32),
+            nn.Linear(32, 32),
+            Snake(32),
+            nn.Linear(32, 1)
         )
 
     def forward(self, x):
@@ -33,10 +49,16 @@ class FunctionApproximator( nn.Module ):
 # fn1(x) + fn2(2x)
 
 class DoubleSin( nn.Module ):
-    def __init__(self):
+    def __init__(self, small=True):
         super().__init__()
-        self.model1 = FunctionApproximator()
-        self.model2 = FunctionApproximator()
+        self.model1 = None
+        self.model2 = None
+        if small:
+            self.model1 = SmallFunctionApproximator()
+            self.model2 = SmallFunctionApproximator()
+        else:
+            self.model1 = FunctionApproximator()
+            self.model2 = FunctionApproximator()
     def forward(self, x):
         output = self.model1(x) + self.model2(2*x)
         return output
@@ -44,9 +66,11 @@ class DoubleSin( nn.Module ):
         return [self.model1,self.model2]
 
 class SingleSinTwice( nn.Module ):
-    def __init__(self, a, b):
+    def __init__(self, a, b, small=True):
         super().__init__()
-        self.model = FunctionApproximator()
+        self.model = None
+        if small: self.model = SmallFunctionApproximator()
+        else: self.model = FunctionApproximator()
         self.a = a
         self.b = b
 
