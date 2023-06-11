@@ -54,7 +54,7 @@ train_loader = torch.utils.data.DataLoader(
 
 # Training loop
 myNN = SingleSinTwice()
-exp_name = "exp01b"
+exp_name = "exp02"
 loss_fn = torch.nn.MSELoss()
 optimizer = torch.optim.Adam(myNN.parameters(), lr=lr)
 
