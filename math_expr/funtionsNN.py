@@ -1,8 +1,9 @@
 import torch
 from torch import nn
-
 import math
 import matplotlib.pyplot as plt
+
+from snake.activations import Snake
 
 torch.manual_seed(42)
 
@@ -27,12 +28,16 @@ class Distinguisher(nn.Module):
         super().__init__()
         self.model = nn.Sequential(
             nn.Linear(1, 64),
-            nn.Tanh(),
+            Snake(64),
+            # nn.Tanh(),
             nn.Linear(64, 64),
-            nn.Tanh(),
+            Snake(64),
+            # nn.Tanh(),
             nn.Linear(64, 64),
-            nn.Tanh(),
+            Snake(64),
+            # nn.Tanh(),
             nn.Linear(64, 1),
+            nn.Sigmoid()
         )
 
     def forward(self, x):
