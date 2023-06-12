@@ -20,8 +20,7 @@ class FunctionApproximator( nn.Module ):
             Snake(64),
             nn.Linear(64, 64),
             Snake(64),
-            nn.Linear(64, 1),
-            nn.Sigmoid()
+            nn.Linear(64, 1)
         )
 
     def forward(self, x):
