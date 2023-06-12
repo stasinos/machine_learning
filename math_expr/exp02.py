@@ -13,6 +13,7 @@ from networks import FunctionApproximator, DoubleSin, SingleSinTwice
 lr = 1e-3
 num_epochs = 10
 batch_size = 32
+RANGE = [-10, 10]
 
 
 # Train the network on data generated
@@ -21,13 +22,12 @@ batch_size = 32
 # plot, not used programmatically,
 # but useful for visual inspection.
 
-x = np.arange(-2*math.pi, 2*math.pi, 0.01)
+x = np.arange( RANGE[0], RANGE[1], 0.01 )
 execute("sine_on_sine", x=x)
 
 
 # make the training set
 
-RANGE = [-10, 10]
 torch.manual_seed(42)
 
 
@@ -42,7 +42,7 @@ def nnrange_to_realrange(x):
 
 train_data_length = 512*1024*2
 train_data = torch.zeros((train_data_length, 1))
-train_data[:, 0] = (RANGE[0] - RANGE[1]) * torch.rand(train_data_length) + RANGE[1]
+train_data[:, 0] = (RANGE[1] - RANGE[0]) * torch.rand(train_data_length) + RANGE[0]
 train_labels = sine_in_01(train_data)
 print(max(train_labels), flush=True)
 print(min(train_labels), flush=True)
@@ -53,7 +53,7 @@ train_loader = torch.utils.data.DataLoader(
 
 
 # Training loop
-myNN = SingleSinTwice()
+myNN = SingleSinTwice(1,2)
 exp_name = "exp02"
 loss_fn = torch.nn.MSELoss()
 optimizer = torch.optim.Adam(myNN.parameters(), lr=lr)
@@ -77,7 +77,7 @@ for epoch in range(num_epochs):
 
             # x_samples[:,0] = torch.rand( 100 )
             x_samples = torch.zeros((200, 1))
-            x_samples[:, 0] = (RANGE[0] - RANGE[1]) * torch.rand(200) + RANGE[1]
+            x_samples[:, 0] = (RANGE[1] - RANGE[0]) * torch.rand(200) + RANGE[0]
 
             y_samples = myNN(x_samples)
 
@@ -90,7 +90,7 @@ for epoch in range(num_epochs):
 
 # save model and final plot
 x_samples = torch.zeros((200, 1))
-x_samples[:, 0] = (RANGE[0] - RANGE[1]) * torch.rand(200) + RANGE[1]
+x_samples[:, 0] = x
 
 y_samples = myNN(x_samples)
 y_plots = nnrange_to_realrange(y_samples[:, 0].detach())
