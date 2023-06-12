@@ -33,9 +33,9 @@ RANGE = [-10, 10]
 torch.manual_seed(42)
 def sine_in_01(x):
     xx = torch.sin(x) + torch.sin(2*x)
-    return 0.5*( 1 + xx )
+    return 0.25*( 2 + xx )
 def nnrange_to_realrange(x):
-    return 2*x-1
+    return 4*x-2
 
 train_data_length = 128*1024
 train_data = torch.zeros( (train_data_length,1) )
