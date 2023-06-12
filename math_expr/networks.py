@@ -1,6 +1,8 @@
 from torch import nn
 import math
 
+from snake.activations import Snake
+
 
 # Model structure
 # Also tried ReLU, tanh seems to work better
@@ -13,12 +15,13 @@ class FunctionApproximator( nn.Module ):
         super().__init__()
         self.model = nn.Sequential(
             nn.Linear(1, 64),
-            nn.Tanh(),
+            Snake(64),
             nn.Linear(64, 64),
-            nn.Tanh(),
+            Snake(64),
             nn.Linear(64, 64),
-            nn.Tanh(),
+            Snake(64),
             nn.Linear(64, 1),
+            nn.Sigmoid()
         )
 
     def forward(self, x):
@@ -41,11 +44,15 @@ class DoubleSin( nn.Module ):
         return [self.model1,self.model2]
 
 class SingleSinTwice( nn.Module ):
-    def __init__(self):
+    def __init__(self, a, b):
         super().__init__()
         self.model = FunctionApproximator()
+        self.a = a
+        self.b = b
+
     def forward(self, x):
-        output = self.model(x) + self.model(2*x)
+        output = self.model(self.a*x) + self.model(self.b*x)
         return output
+
     def get_internal(self):
         return [self.model]
