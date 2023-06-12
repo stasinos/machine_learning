@@ -32,12 +32,7 @@ torch.manual_seed(42)
 
 
 def sine_in_01(x):
-    xx = torch.sin(x) + torch.sin(2*x)
-    return 0.25*(2 + xx)
-
-
-def nnrange_to_realrange(x):
-    return 4*x-2
+    return torch.sin(x) + torch.sin(2*x)
 
 
 train_data_length = 512*1024*2
@@ -81,7 +76,7 @@ for epoch in range(num_epochs):
 
             y_samples = myNN(x_samples)
 
-            y_plots = nnrange_to_realrange(y_samples[:,0].detach())
+            y_plots = y_samples[:,0].detach()
             print(min(y_plots), max(y_plots), flush=True)
             x_plots = 2 * math.pi * x_samples[:, 0]
             plt.plot(x_plots, y_plots, ".")
@@ -93,7 +88,7 @@ x_samples = torch.zeros((200, 1))
 x_samples[:, 0] = x
 
 y_samples = myNN(x_samples)
-y_plots = nnrange_to_realrange(y_samples[:, 0].detach())
+y_plots = y_samples[:, 0].detach()
 x_plots = 2 * math.pi * x_samples[:, 0]
 plt.plot(x_plots, y_plots, ".")
 plt.savefig("{}_final.png".format(exp_name))
@@ -104,7 +99,7 @@ model_scripted.save("{}.pt".format(exp_name))
 
 for i, m in enumerate(myNN.get_internal()):
     y1_samples = m(x_samples)
-    y1_plots = nnrange_to_realrange(y1_samples[:, 0].detach())
+    y1_plots = y1_samples[:, 0].detach()
     plt.plot(x_plots, y1_plots, ".")
     plt.savefig("{}_model{}.png".format(exp_name, i))
     plt.close()
