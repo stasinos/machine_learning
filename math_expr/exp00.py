@@ -1,7 +1,7 @@
 import torch
 import math
 import matplotlib.pyplot as plt
-from networks import FunctionApproximator
+from networks import DeepApproximator
 
 torch.manual_seed( 42 )
 

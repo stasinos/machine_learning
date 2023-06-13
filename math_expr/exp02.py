@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 
 from executor import execute
-from networks import FunctionApproximator, DoubleSin, SingleSinTwice
+from networks import DoubleSin, SingleSinTwice, Composer
 
 
 # Hyperparams
