@@ -84,8 +84,9 @@ for epoch in range(num_epochs):
             plt.close()
 
 # save model and final plot
-x_samples = torch.zeros((len(x), 1))
-x_samples[:, 0] = x
+torch_x = torch.arange( RANGE[0], RANGE[1], 0.01 )
+x_samples = torch.zeros((len(torch_x), 1))
+x_samples[:, 0] = torch_x
 
 y_samples = myNN(x_samples)
 y_plots = y_samples[:, 0].detach()
