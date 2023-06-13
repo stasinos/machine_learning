@@ -84,7 +84,7 @@ for epoch in range(num_epochs):
             plt.close()
 
 # save model and final plot
-x_samples = torch.zeros((200, 1))
+x_samples = torch.zeros((len(x), 1))
 x_samples[:, 0] = x
 
 y_samples = myNN(x_samples)
