@@ -1,45 +1,46 @@
 # Train the network on data generated
-# specifically : sin(x) + sin(2x)
-#              : sin(2x) + sin(3x)
-#              : sin(x) + sin(5x)
+# specifically : exp(x) + exp(2x)
+#              : exp(2x) + exp(3x)
+#              : exp(x) + exp(5x)
 
-import numpy as np
-import math
 import torch
 import matplotlib.pyplot as plt
 from datetime import datetime
 
-from executor import execute
-from networks import FunctionApproximator, DoubleSin, SingleSinTwice
-
+from networks import SingleSinTwice as SingleFunTwice
 
 # Hyperparams
 
 lr = 1e-3
-num_epochs = 10
-batch_size = 32
-RANGE = [-10, 10]
-
-
-# Train the network on data generated
-# from sin(x) + sin(2x)
-
-# plot, not used programmatically,
-# but useful for visual inspection.
-
-x = np.arange( RANGE[0], RANGE[1], 0.01 )
-execute("sine_on_sine", x=x)
-
+num_epochs = 15
+batch_size = 64
 
 # make the training set
 
+RANGE = [-10, 10]
 torch.manual_seed(42)
 
-
-def sine(x, a=1, b=1):
-    return torch.sin(a*x) + torch.sin(b*x)
+train_data_length = 512 * 1024
 
 
+class Exp:
+    def __init__(self, a, b, data_len):
+        self.a = a
+        self.b = b
+        self.data_len = data_len
+
+        self.x = torch.zeros((self.data_len, 1))
+        self.x[:, 0] = (RANGE[0] - RANGE[1]) * torch.rand(self.data_len) + RANGE[0]
+
+        self.y = self.expo()
+
+    def expo(self):
+        return torch.exp(self.a * self.x) + torch.exp(self.b * self.x)
+
+
+# trying : exp(x) + exp(2x)
+#        : exp(2x) + exp(3x)
+#        : exp(x) + exp(5x)
 params = [[1, 2], [2, 3], [1, 5]]
 
 for i in range(len(params)):
@@ -47,21 +48,19 @@ for i in range(len(params)):
     alpha = params[i][0]
     beta = params[i][1]
 
-    train_data_length = 512*1024*2
-    train_data = torch.zeros((train_data_length, 1))
-    train_data[:, 0] = (RANGE[1] - RANGE[0]) * torch.rand(train_data_length) + RANGE[0]
-    train_labels = sine(x=train_data, a=alpha, b=beta)
-    print(max(train_labels), flush=True)
-    print(min(train_labels), flush=True)
+    print(f'\nStart training for exp({alpha}*x) + exp({beta}*x)...\n')
+
+    exp_train_data = Exp(a=alpha, b=beta, data_len=train_data_length)
+
+    print(max(exp_train_data.y), flush=True)
+    print(min(exp_train_data.y), flush=True)
     train_loader = torch.utils.data.DataLoader(
-        [(train_data[i], train_labels[i]) for i in range(train_data_length)],
+        [(exp_train_data.x[i], exp_train_data.y[i]) for i in range(train_data_length)],
         batch_size=batch_size, shuffle=True
     )
-
-
     # Training loop
-    myNN = SingleSinTwice(1,2)
-    exp_name = "exp02"
+    myNN = SingleFunTwice(a=alpha, b=beta)
+    exp_name = "exp0" + str(i + 1) + "e"
     loss_fn = torch.nn.MSELoss()
     optimizer = torch.optim.Adam(myNN.parameters(), lr=lr)
 
@@ -81,34 +80,17 @@ for i in range(len(params)):
             # if epoch % 10 == 0 and n == batch_size - 1:
             if epoch % 1 == 0 and n == batch_size - 1:
                 print(f"Epoch: {epoch} Loss: {loss}", flush=True)
-                '''
-                # x_samples[:,0] = torch.rand( 100 )
-                x_samples = torch.zeros((200, 1))
-                x_samples[:, 0] = (RANGE[1] - RANGE[0]) * torch.rand(200) + RANGE[0]
-    
-                y_samples = myNN(x_samples)
-    
-                y_plots = y_samples[:,0].detach()
-                print(min(y_plots), max(y_plots), flush=True)
-                x_plots = 2 * math.pi * x_samples[:, 0]
-                plt.plot(x_plots, y_plots, ".")
-                plt.savefig("{}_{}.png".format(exp_name, epoch))
-                plt.close()
-                '''
 
     # save model and final plot
-    torch_x = torch.arange(RANGE[0], RANGE[1], 0.01)
-    x_samples = torch.zeros((len(torch_x), 1))
-    x_samples[:, 0] = torch_x
-
+    exp_test_data = Exp(a=alpha, b=beta, data_len=200)
+    x_samples = exp_test_data.x
     y_samples = myNN(x_samples)
     y_plots = y_samples[:, 0].detach()
-    x_plots = 2 * math.pi * x_samples[:, 0]
-
-    y_fun = torch.sin(alpha * x_samples[:, 0]) + torch.sin(beta * x_samples[:, 0])
+    x_plots = x_samples[:, 0]
+    y_fun = torch.exp(alpha * x_samples[:, 0]) + torch.exp(beta * x_samples[:, 0])
     plt.plot(x_plots, y_plots, ".", label="predicted value")
     plt.plot(x_plots, y_fun, '.', color="green", alpha=0.4, label="true value")
-    plt.title(f'Function sin({alpha}*x) + sin({beta}*x)')
+    plt.title(f'Function exp({alpha}*x) + exp({beta}*x)')
     plt.legend()
     plt.savefig("{}_final.png".format(exp_name))
     plt.close()
@@ -119,10 +101,10 @@ for i in range(len(params)):
     for i, m in enumerate(myNN.get_internal()):
         y1_samples = m(x_samples)
         y1_plots = y1_samples[:, 0].detach()
-        y1_fun = torch.sin(x_samples[:, 0])
+        y1_fun = torch.exp(x_samples[:, 0])
         plt.plot(x_plots, y1_plots, ".", label="predicted value")
         plt.plot(x_plots, y1_fun, ".", color="green", alpha=0.4, label="true value")
-        plt.title('Function sin(x)')
+        plt.title('Function exp(x)')
         plt.legend()
         plt.savefig("{}_model{}.png".format(exp_name, i))
         plt.close()
@@ -132,3 +114,5 @@ for i in range(len(params)):
     now = datetime.now()
     current_time = now.strftime("%H:%M:%S")
     print("ENDTIME " + current_time, flush=True)
+
+    print(f'\nEnd training for exp({alpha}*x) + exp({beta}*x)...')
