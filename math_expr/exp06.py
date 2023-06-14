@@ -87,7 +87,7 @@ for i in range(len(composition)):
     x_samples = exp_test_data.x
     y_samples = myNN(x_samples)
     y_plots = y_samples[:, 0].detach()
-    x_plots = 2 * math.pi * x_samples[:, 0]
+    x_plots = x_samples[:, 0]
     y_fun = torch.exp(composition[i](alpha * x_samples[:, 0]))
     plt.plot(x_plots, y_plots, ".", label="predicted value")
     plt.plot(x_plots, y_fun, '.', color="green", alpha=0.4, label="true value")
