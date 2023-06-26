@@ -34,13 +34,16 @@ class Fun:
         if fun1_name == "ln" or fun2_name == "ln":  # logarithm is defined in (0, inf)
             self.x[:, 0] = (RANGE[1] - 0 + 1e-4) * torch.rand(self.data_len) + 0 + 1e-4
         else:
-            self.x[:, 0] = (RANGE[0] - RANGE[1]) * torch.rand(self.data_len) + RANGE[0]
+            self.x[:, 0] = (RANGE[1] - RANGE[0]) * torch.rand(self.data_len) + RANGE[0]
 
         self.y = fun1(self.x) + fun2(self.x)
 
 
-composition = [torch.sin, torch.log, torch.sinc, torch.exp]
-composition_str = ["sin", "ln", "sinc", "exp"]
+# composition = [torch.sin, torch.log, torch.sinc, torch.exp]
+# composition_str = ["sin", "ln", "sinc", "exp"]
+
+composition = [torch.sinc, torch.exp]
+composition_str = ["sinc", "exp"]
 
 count = 0
 

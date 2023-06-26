@@ -30,7 +30,7 @@ class Exp:
         self.data_len = data_len
 
         self.x = torch.zeros((self.data_len, 1))
-        self.x[:, 0] = (RANGE[0] - RANGE[1]) * torch.rand(self.data_len) + RANGE[0]
+        self.x[:, 0] = (RANGE[1] - RANGE[0]) * torch.rand(self.data_len) + RANGE[0]
 
         self.y = self.expo()
 
