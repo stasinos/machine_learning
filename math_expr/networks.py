@@ -1,6 +1,6 @@
 from torch import nn
 
-from snake.activations import Snake
+from snake import Snake
 
 
 # Model structure

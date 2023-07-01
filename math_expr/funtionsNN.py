@@ -3,7 +3,7 @@ from torch import nn
 import math
 import matplotlib.pyplot as plt
 
-from snake.activations import Snake
+from snake import Snake
 
 torch.manual_seed(42)
 
