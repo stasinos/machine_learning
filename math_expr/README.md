@@ -159,3 +159,16 @@ on a specific domain, there will be semantically different functions
 that are indistiguishable within this domain. For example, exp() looks
 like a straight line for small exponents.
 
+# History
+
+## Applications of AI, 2022-2023
+
+[Tatiana Boura](https://github.com/tatiana-boura) and
+[Konstantinos Chaldaiopoulos](https://github.com/KonstantinosChaldaiopoulos)
+bravely undertook the first iteration of this exercise, while the
+exercise was still being formed and greatly contributed to the exercise
+definition itself while also carrying out experiments and writing an
+excellent report based on these experiments. In this first iteration,
+evaluation was performed on x,y pairs rather than bitmaps as there was
+no satisfactory way to evaluate the similarity between the output of
+a hypothesis and the target bitmap.
