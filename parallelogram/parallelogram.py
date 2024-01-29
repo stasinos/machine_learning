@@ -83,7 +83,7 @@ def make_training_dataset( n ):
         datapoint = [ x1, y1, x2, y2 ]
         datapoint.extend( f )
         l = get_label( o )
-        if l is 'square': n_sq += 1
+        if l == 'square': n_sq += 1
         datapoint.append( l )
         data.append( datapoint )
     if print_details: print( "Made dataset with {:d}/{:d} squares".format(n_sq,n) )
@@ -117,7 +117,7 @@ def make_production_dataset( n ):
         f = extract_features( o )
         datapoint.extend( f )
         l = get_label( o )
-        if l is 'square': n_sq += 1
+        if l == 'square': n_sq += 1
         datapoint.append( l )
         dataset.append( datapoint )
     return pandas.DataFrame( dataset, columns=df_cols )
