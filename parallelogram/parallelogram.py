@@ -90,17 +90,15 @@ def make_training_dataset( n ):
 
 def make_production_dataset( n ):
     data = []
-    for i in range(0,math.ceil(n/2)):
+    for i in range(0,math.ceil(n/2)): # half of the production dataset contains longs
         x1 = random.randint( 0, 97 )
         y1 = random.randint( 0, 97 )
-        try:
-            o = make_long( x1, y1, 72 )
-        except:
-            # x1,y1 at the edge,
-            # impossible to fit long
-            x1 = random.randint( 0, 90 )
-            y1 = random.randint( 0, 90 )
-            o = make_long( x1, y1 )
+        o = make_long( x1, y1, 72 )
+        data.append( o )
+    for i in range(0,math.ceil(n/2)):
+        x1 = random.randint( 0, 98 )
+        y1 = random.randint( 0, 98 )
+        o = make_square( x1, y1, 72 )
         data.append( o )
     for i in range(0,math.ceil(n/2)):
         x1 = random.randint( 0, 98 )
