@@ -93,14 +93,7 @@ def make_production_dataset( n ):
     for i in range(0,math.ceil(n/2)):
         x1 = random.randint( 0, 97 )
         y1 = random.randint( 0, 97 )
-        try:
-            o = make_long( x1, y1, 72 )
-        except:
-            # x1,y1 at the edge,
-            # impossible to fit long
-            x1 = random.randint( 0, 90 )
-            y1 = random.randint( 0, 90 )
-            o = make_long( x1, y1 )
+        o = make_long( x1, y1, 72 )
         data.append( o )
     for i in range(0,math.ceil(n/2)):
         x1 = random.randint( 0, 98 )
