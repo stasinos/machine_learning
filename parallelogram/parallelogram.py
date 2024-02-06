@@ -49,23 +49,21 @@ def make_object( x1, y1, max_dim=100 ):
 
 def make_square( x1, y1, max_dim=100 ):
     if max_dim<2: raise ValueError
-    lim = min( [max(x1,y1)+max_dim, 99] )
-    delta = random.randint( max(x1,y1)+1, lim )
+    lim = min( [max(x1,y1)+max_dim, 99-max(x1,y1)] )
+    delta = random.randint( 1, lim )
     x2 = x1+delta
     y2 = y1+delta
     return ( x1, y1, x2, y2 )
 
 def make_long( x1, y1, max_dim=100 ):
     if max_dim<2: raise ValueError
-    # x1,y1 at the edge, impossible to fit long
-    if x1 == 98 and y1 == 98: raise ValueError
-    lim_x2 = min( [x1+max_dim,99] )
-    lim_y2 = min( [y1+max_dim,99] )
-    delta_x = random.randint( x1+1, lim_x2 )
-    delta_y = random.randint( y1+1, lim_y2 )
+    lim_x2 = min( [x1+max_dim,99-x1] )
+    lim_y2 = min( [y1+max_dim,99-y1] )
+    delta_x = random.randint( 1, lim_x2 )
+    delta_y = random.randint( 1, lim_y2 )
     while delta_x == delta_y:
-        delta_x = random.randint( x1+1, lim_x2 )
-        delta_y = random.randint( y1+1, lim_y2 )
+        delta_x = random.randint( 1, lim_x2 )
+        delta_y = random.randint( 1, lim_y2 )
     x2 = x1+delta_x
     y2 = y1+delta_y
     return ( x1, y1, x2, y2 )
@@ -92,17 +90,15 @@ def make_training_dataset( n ):
 
 def make_production_dataset( n ):
     data = []
-    for i in range(0,math.ceil(n/2)):
+    for i in range(0,math.ceil(n/2)): # half of the production dataset contains longs
         x1 = random.randint( 0, 97 )
         y1 = random.randint( 0, 97 )
-        try:
-            o = make_long( x1, y1, 72 )
-        except:
-            # x1,y1 at the edge,
-            # impossible to fit long
-            x1 = random.randint( 0, 90 )
-            y1 = random.randint( 0, 90 )
-            o = make_long( x1, y1 )
+        o = make_long( x1, y1, 72 )
+        data.append( o )
+    for i in range(0,math.ceil(n/2)):
+        x1 = random.randint( 0, 98 )
+        y1 = random.randint( 0, 98 )
+        o = make_square( x1, y1, 72 )
         data.append( o )
     for i in range(0,math.ceil(n/2)):
         x1 = random.randint( 0, 98 )
