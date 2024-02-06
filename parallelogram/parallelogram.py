@@ -1,12 +1,16 @@
 import pandas
 import random
 import math
+import pydot
+import statistics
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import KFold
 from sklearn import metrics
 from sklearn.tree import export_graphviz
 
 print_details=False
+export_tree = False
+n_folds = 20
 
 df_cols = ['x1','x2','y1','y2','abs_w','abs_h','rel_w','rel_h','max_dim','min_dim','label']
 
@@ -129,14 +133,12 @@ def make_one_experiment( n ):
     X = df[features].values
     y = df.label.values
 
-    # Split into 20 folds and use 19/20 for training
-    # and 1/20 for validation. Return the best model
-    # among these 20 models as the final outcome.
-    kf = KFold( n_splits=20, shuffle=False, random_state=None )
-    avg_acc_train = 0.0
-    avg_acc = 0.0
-    best_acc = 0.0
-    best_clf = None
+    # Split into n_folds folds and use n_folds-1 for training
+    # and 1 for validation. Return the best model among these
+    # n_folds models as the final outcome.
+    kf = KFold( n_splits=n_folds, shuffle=False, random_state=None )
+    tests1 = []
+    tests2 = []
     for train_index, test_index in kf.split(X):
         X_train, X_test = X[train_index], X[test_index]
         y_train, y_test = y[train_index], y[test_index]
@@ -148,25 +150,36 @@ def make_one_experiment( n ):
         acc_train = metrics.accuracy_score(y_train, y_pred)
         y_pred = clf.predict( X_test )
         acc_test = metrics.accuracy_score(y_test, y_pred)
-        avg_acc_train += acc_train / 20
-        avg_acc += acc_test / 20
-        if acc_test > best_acc: best_clf, best_acc = clf, acc_test
+        tests1.append( acc_train )
+        tests2.append( acc_test )
+    # Folding is only used to estimate the accuracy
+    # Now use all the data to train the classifier
+    # that will be deployed.
+    avg_acc_train = statistics.mean( tests1 )
+    avg_acc_test = statistics.mean( tests2 )
+    clf = DecisionTreeClassifier( max_depth=6 )
+    clf = clf.fit( X, y )
 
     df = make_production_dataset( 1000 )
     X = df[features].values
     y = df.label.values
-    pred = best_clf.predict( X )
+    pred = clf.predict( X )
     actual_acc = metrics.accuracy_score( y, pred )
+    difference = actual_acc - avg_acc_test
 
     if print_details:
-        print( "Accuracy: from {:.2f} (training) to {:.2f} (validation) to {:.2f}, {:.2f}".format(avg_acc_train, avg_acc, actual_acc, actual_acc-avg_acc) )
-    return actual_acc-avg_acc
+        print( "Accuracy: from {:.2f} (training) to {:.2f} (validation) to {:.2f} (actual) -> {:.2f} (difference)".format(avg_acc_train, avg_acc_test,
+                actual_acc, difference) )
+        
+        if export_tree:
+            # This creates a tree.dot file that can then be
+            # used to create an image of the decision tree
+            export_graphviz(clf, "tree.dot", filled=True, rounded=True,
+                    special_characters=True, feature_names=features, class_names=['long','square'])
+            graphs = pydot.graph_from_dot_file( "tree.dot" )
+            graphs[0].write_png( "tree.png" )
 
-    # This creates a tree.dot file that can then be
-    # used to create an image of the decision tree
-    #export_graphviz(best_clf, "tree.dot", filled=True, rounded=True,
-    #                special_characters=True, feature_names=features, class_names=['long','square'])
-
+    return difference
 
 random.seed( 12 )
 
