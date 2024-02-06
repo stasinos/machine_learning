@@ -10,6 +10,7 @@ from sklearn.tree import export_graphviz
 
 print_details=False
 export_tree = False
+n_folds = 20
 
 df_cols = ['x1','x2','y1','y2','abs_w','abs_h','rel_w','rel_h','max_dim','min_dim','label']
 
@@ -132,10 +133,10 @@ def make_one_experiment( n ):
     X = df[features].values
     y = df.label.values
 
-    # Split into 20 folds and use 19/20 for training
-    # and 1/20 for validation. Return the best model
-    # among these 20 models as the final outcome.
-    kf = KFold( n_splits=20, shuffle=False, random_state=None )
+    # Split into n_folds folds and use n_folds-1 for training
+    # and 1 for validation. Return the best model among these
+    # n_folds models as the final outcome.
+    kf = KFold( n_splits=n_folds, shuffle=False, random_state=None )
     tests1 = []
     tests2 = []
     for train_index, test_index in kf.split(X):
