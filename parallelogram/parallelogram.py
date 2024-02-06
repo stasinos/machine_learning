@@ -9,6 +9,7 @@ from sklearn import metrics
 from sklearn.tree import export_graphviz
 
 print_details=False
+export_tree = False
 
 df_cols = ['x1','x2','y1','y2','abs_w','abs_h','rel_w','rel_h','max_dim','min_dim','label']
 
@@ -168,12 +169,14 @@ def make_one_experiment( n ):
     if print_details:
         print( "Accuracy: from {:.2f} (training) to {:.2f} (validation) to {:.2f} (actual) -> {:.2f} (difference)".format(avg_acc_train, avg_acc_test,
                 actual_acc, difference) )
-        # This creates a tree.dot file that can then be
-        # used to create an image of the decision tree
-        export_graphviz(clf, "tree.dot", filled=True, rounded=True,
-                special_characters=True, feature_names=features, class_names=['long','square'])
-        graphs = pydot.graph_from_dot_file( "tree.dot" )
-        graphs[0].write_png( "tree.png" )
+        
+        if export_tree:
+            # This creates a tree.dot file that can then be
+            # used to create an image of the decision tree
+            export_graphviz(clf, "tree.dot", filled=True, rounded=True,
+                    special_characters=True, feature_names=features, class_names=['long','square'])
+            graphs = pydot.graph_from_dot_file( "tree.dot" )
+            graphs[0].write_png( "tree.png" )
 
     return difference
 
